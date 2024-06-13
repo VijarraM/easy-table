@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  easyTable_pg:
+    image: postgres:16.3
+    container_name: easyTable_pg
+    restart: always
+    environment:
+      POSTGRES_DB: easyTabledb
+      POSTGRES_USER: easyTable
+      POSTGRES_PASSWORD: secret1234
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/initsql
+    ports:
+      - 5432:5432
