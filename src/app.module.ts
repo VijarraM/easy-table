@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TablesModule } from './tables/tables.module';
-import { UsersController } from './users/users.controller';
+import { UsersController } from './users/controllers/users.controller';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSourceConfig } from './config/data.source';
-import { ProjectsModule } from './projects/projects.module';
 import { ReservationsModule } from './reservations/reservations.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 
@@ -18,7 +17,6 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
     TypeOrmModule.forRoot({ ...DataSourceConfig }),
     TablesModule,
     UsersModule,
-    ProjectsModule,
     ReservationsModule,
     RestaurantsModule,
   ],
