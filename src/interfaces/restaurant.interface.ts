@@ -1,3 +1,6 @@
+import { IReservation } from './reservation.interface';
+import { ITable } from './table.interface';
+
 export interface IRestaurant {
   name: string;
   address: string;
@@ -6,4 +9,6 @@ export interface IRestaurant {
   description: string;
   openingHours: number;
   closingHours: number;
+  reservations?: IReservation[];
+  tables?: ITable[];
 }
