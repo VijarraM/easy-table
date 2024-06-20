@@ -14,7 +14,7 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
       envFilePath: `.${process.env.NODE_ENV}.env`,
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({ ...DataSourceConfig }),
+    TypeOrmModule.forRoot(DataSourceConfig),
     TablesModule,
     UsersModule,
     ReservationsModule,

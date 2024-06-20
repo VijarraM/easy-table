@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { BaseEntity } from 'src/config/base.entity';
-import { IRestaurant } from 'src/interfaces/restaurant.interface';
-import { ReservationsEntity } from 'src/reservations/entities/reservations.entity';
-import { TablesEntity } from 'src/tables/entities/tables.entity';
+import { BaseEntity } from '../../config/base.entity';
+import { IRestaurant } from '../../interfaces/restaurant.interface';
+import { ReservationsEntity } from '../../reservations/entities/reservations.entity';
+import { TablesEntity } from '../../tables/entities/tables.entity';
 @Entity({ name: 'restaurants' })
 export class RestaurantsEntity extends BaseEntity implements IRestaurant {
   @Column()

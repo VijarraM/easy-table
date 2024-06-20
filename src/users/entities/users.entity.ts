@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { BaseEntity } from 'src/config/base.entity';
-import { ROLES } from 'src/constants/roles';
-import { IUser } from 'src/interfaces/user.interface';
-import { ReservationsEntity } from 'src/reservations/entities/reservations.entity';
+import { BaseEntity } from '../../config/base.entity';
+import { ROLES } from '../../constants/roles';
+import { IUser } from '../../interfaces/user.interface';
+import { ReservationsEntity } from '../../reservations/entities/reservations.entity';
 @Entity({ name: 'users' })
 export class UsersEntity extends BaseEntity implements IUser {
   @Column()

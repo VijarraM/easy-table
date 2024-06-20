@@ -1,9 +1,9 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { BaseEntity } from 'src/config/base.entity';
-import { IReservation } from 'src/interfaces/reservation.interface';
-import { UsersEntity } from 'src/users/entities/users.entity';
-import { TablesEntity } from 'src/tables/entities/tables.entity';
-import { RestaurantsEntity } from 'src/restaurants/entities/restaurants.entity';
+import { BaseEntity } from '../../config/base.entity';
+import { IReservation } from '../../interfaces/reservation.interface';
+import { UsersEntity } from '../../users/entities/users.entity';
+import { TablesEntity } from '../../tables/entities/tables.entity';
+import { RestaurantsEntity } from '../../restaurants/entities/restaurants.entity';
 @Entity({ name: 'reservations' })
 export class ReservationsEntity extends BaseEntity implements IReservation {
   @Column()
