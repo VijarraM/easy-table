@@ -7,7 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSourceConfig } from './config/data.source';
 import { ReservationsModule } from './reservations/reservations.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
-import { RestaurantsService } from './services/restaurants/restaurants.service';
 
 @Module({
   imports: [
@@ -22,6 +21,6 @@ import { RestaurantsService } from './services/restaurants/restaurants.service';
     RestaurantsModule,
   ],
   controllers: [UsersController],
-  providers: [RestaurantsService],
+  providers: [],
 })
 export class AppModule {}
