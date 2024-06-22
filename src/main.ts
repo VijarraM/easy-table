@@ -4,9 +4,12 @@ import { ConfigService } from '@nestjs/config';
 import * as morgan from 'morgan';
 import { CORS } from './constants/cors';
 import { ValidationPipe } from '@nestjs/common';
+import { HttpExceptionFilter } from './utils/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   const configService = app.get(ConfigService);
 

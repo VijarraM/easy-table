@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TablesModule } from './tables/tables.module';
-import { UsersController } from './users/controllers/users.controller';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -20,7 +19,7 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
     ReservationsModule,
     RestaurantsModule,
   ],
-  controllers: [UsersController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}

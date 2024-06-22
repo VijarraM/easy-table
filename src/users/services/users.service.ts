@@ -1,4 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from '../entities/users.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
@@ -13,28 +19,49 @@ export class UsersService {
 
   public async createUser(body: UserDTO): Promise<UsersEntity> {
     try {
-      return await this.userRepository.save(body);
+      const user: UsersEntity = await this.userRepository.save(body);
+      if (!user) {
+        throw new BadRequestException('No se pudo crear al usuario');
+      }
+      return user;
     } catch (error) {
-      throw new Error(error);
+      throw new BadRequestException(error);
     }
   }
 
   public async findUsers(): Promise<UsersEntity[]> {
     try {
-      return await this.userRepository.find();
+      const users: UsersEntity[] = await this.userRepository.find();
+      if (users.length === 0) {
+        throw new NotFoundException('No encontré ni bosta');
+      }
+      return users;
     } catch (error) {
-      throw new Error(error);
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
   public async findUserById(id: string): Promise<UsersEntity> {
     try {
-      return await this.userRepository
+      const user: UsersEntity = await this.userRepository
         .createQueryBuilder('user')
         .where({ id })
         .getOne();
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      return user;
     } catch (error) {
-      throw new Error(error);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -45,11 +72,17 @@ export class UsersService {
     try {
       const user: UpdateResult = await this.userRepository.update(id, body);
       if (user.affected === 0) {
-        return undefined;
+        throw new HttpException('No user found', HttpStatus.NOT_FOUND);
       }
       return user;
     } catch (error) {
-      throw new Error(error);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -57,11 +90,17 @@ export class UsersService {
     try {
       const user: DeleteResult = await this.userRepository.delete(id);
       if (user.affected === 0) {
-        return undefined;
+        throw new HttpException('No user found', HttpStatus.NOT_FOUND);
       }
       return user;
     } catch (error) {
-      throw new Error(error);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }

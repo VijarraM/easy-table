@@ -1,4 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RestaurantsEntity } from '../entities/restaurants.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
@@ -15,28 +21,51 @@ export class RestaurantsService {
     body: RestaurantDTO,
   ): Promise<RestaurantsEntity> {
     try {
-      return await this.restaurantRepository.save(body);
+      const restaurant: RestaurantsEntity =
+        await this.restaurantRepository.save(body);
+      if (!restaurant) {
+        throw new BadRequestException('No se pudo crear el restaurant');
+      }
+      return restaurant;
     } catch (error) {
-      throw new Error(error);
+      throw new BadRequestException(error);
     }
   }
 
   public async findRestaurants(): Promise<RestaurantsEntity[]> {
     try {
-      return await this.restaurantRepository.find();
+      const restaurants: RestaurantsEntity[] =
+        await this.restaurantRepository.find();
+      if (restaurants.length === 0) {
+        throw new NotFoundException('No se encontraron Restaurants');
+      }
+      return restaurants;
     } catch (error) {
-      throw new Error(error);
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
   public async findRestaurantById(id: string): Promise<RestaurantsEntity> {
     try {
-      return await this.restaurantRepository
+      const restaurant: RestaurantsEntity = await this.restaurantRepository
         .createQueryBuilder('restaurant')
         .where({ id })
         .getOne();
+      if (!restaurant) {
+        throw new NotFoundException('No se encontró el Restaurant');
+      }
+      return restaurant;
     } catch (error) {
-      throw new Error(error);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -50,11 +79,17 @@ export class RestaurantsService {
         body,
       );
       if (restaurant.affected === 0) {
-        return undefined;
+        throw new NotFoundException('No se encontró Restaurant para modificar');
       }
       return restaurant;
     } catch (error) {
-      throw new Error(error);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
@@ -63,11 +98,17 @@ export class RestaurantsService {
       const restaurant: DeleteResult =
         await this.restaurantRepository.delete(id);
       if (restaurant.affected === 0) {
-        return undefined;
+        throw new NotFoundException('No se encontró Restaurant para eliminar');
       }
       return restaurant;
     } catch (error) {
-      throw new Error(error);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Internal server error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
