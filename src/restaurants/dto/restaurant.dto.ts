@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class RestaurantDTO {
   @IsNotEmpty()
@@ -14,7 +20,7 @@ export class RestaurantDTO {
   phone: number;
 
   @IsNotEmpty()
-  @IsString()
+  @IsEmail()
   email: string;
 
   @IsNotEmpty()
@@ -44,7 +50,7 @@ export class RestaurantUpdateDTO {
   phone: number;
 
   @IsOptional()
-  @IsString()
+  @IsEmail()
   email: string;
 
   @IsOptional()

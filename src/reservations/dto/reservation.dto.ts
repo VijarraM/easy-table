@@ -1,10 +1,15 @@
 import {
   IsDate,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsString,
+  IsUUID,
 } from 'class-validator';
+import { STATUS } from 'src/constants/reservation.status';
+import { RestaurantsEntity } from 'src/restaurants/entities/restaurants.entity';
+import { TablesEntity } from 'src/tables/entities/tables.entity';
+import { UsersEntity } from 'src/users/entities/users.entity';
 
 export class ReservationDTO {
   @IsNotEmpty()
@@ -16,8 +21,20 @@ export class ReservationDTO {
   reservationTime: Date;
 
   @IsNotEmpty()
-  @IsString()
-  status: string;
+  @IsEnum(STATUS)
+  status: STATUS;
+
+  @IsNotEmpty()
+  @IsUUID()
+  user: UsersEntity;
+
+  @IsNotEmpty()
+  @IsUUID()
+  table: TablesEntity;
+
+  @IsNotEmpty()
+  @IsUUID()
+  restaurant: RestaurantsEntity;
 }
 
 export class ReservationUpdateDTO {
@@ -30,6 +47,18 @@ export class ReservationUpdateDTO {
   reservationTime: Date;
 
   @IsOptional()
-  @IsString()
-  status: string;
+  @IsEnum(STATUS)
+  status: STATUS;
+
+  @IsOptional()
+  @IsUUID()
+  user: UsersEntity;
+
+  @IsOptional()
+  @IsUUID()
+  table: TablesEntity;
+
+  @IsOptional()
+  @IsUUID()
+  restaurant: RestaurantsEntity;
 }

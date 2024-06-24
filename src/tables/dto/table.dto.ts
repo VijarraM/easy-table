@@ -1,4 +1,12 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
+import { UUID } from 'crypto';
+import { RestaurantsEntity } from 'src/restaurants/entities/restaurants.entity';
 
 export class TableDTO {
   @IsNotEmpty()
@@ -12,6 +20,10 @@ export class TableDTO {
   @IsNotEmpty()
   @IsString()
   location: string;
+
+  @IsNotEmpty()
+  @IsUUID()
+  restaurant: RestaurantsEntity;
 }
 
 export class TableUpdateDTO {
@@ -26,4 +38,8 @@ export class TableUpdateDTO {
   @IsOptional()
   @IsString()
   location: string;
+
+  @IsOptional()
+  @IsUUID()
+  restaurant: RestaurantsEntity;
 }
